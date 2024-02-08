@@ -29,11 +29,17 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+
 app.get('/api/:date?', (req, res) => {
   let dateInput = req.params.date;
+  let timestamp;
 
-  const dateInpute = new Date(dateInput);
-  const timestamp = parseInt(dateInput);
+  if (!dateInput){
+    dateInput = new Date();
+  } else {
+    dateInput = new Date(dateInput);
+    timestamp = parseInt(dateInput);
+  }
 
   if (!isNaN(dateInpute.getTime())) {
     const unixTimestamp = dateInpute.getTime();
@@ -49,4 +55,3 @@ app.get('/api/:date?', (req, res) => {
     res.json({ error: "Invalid Date" });
   }
 });
-
